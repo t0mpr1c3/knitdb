@@ -180,6 +180,7 @@ m3 = re.compile(
     "\\bElegant\\b|\\bChic\\b|\\bStylish\\b|\\bFashionable\\b|\\bWardrobe\\b")
 #
 m4 = re.compile("\\bCoat[s]?\\b|\bOvercoat[s]?\\b|[Jj]acket[s]?\\b") ## not Waistcoat
+#
 m5 = re.compile("\\bCardi[e]?[s]?\\b|\\bCardigan[s]?\\b") ## Cardigan
 m6 = re.compile("\\bHoodie[s]?\\b|\\bHooded Top[s]?\\b") ## not Hood
 m7 = re.compile("\\bSweater[s]?\\b|\\bJumper[s]?\\b|\\bPullover[s]?\\b|\\bPull-Over[s]?\\b") ## Sweater
@@ -236,8 +237,8 @@ mAK = re.compile("\\bCloche[s]?\\b") ## Cloche
 mAL = re.compile("\\bEarflap[s]?\\b|\\bEar Flap[s]?\\b|\\bDeerstalker[s]?\\b") ## Earflap
 mAM = re.compile("\\bHat[s]?\\b|\\bHead[wg]ear\\b") ## Hat
 mAN = re.compile("\\bHeadband[s]?\\b") ## Headband
-#
 mAO = re.compile("\\bHood[s]?\\b|\\bSnood[s]?\\b|\\bHooded\\b(?! Top[s]?\\b)") ## not Hoodie
+#
 mAP = re.compile("\\bNeckwear\\b") ## Neckwear
 mAQ = re.compile("\\bCowl[s]?\\b|\\bCollar[s]?\\b|\\bShrowl[s]?\\b") ## Cowl
 mAR = re.compile("\\bNecktie[s]?\\b|\\bTie[s]?\\b|\\bCravat[s]?\\b") ## Necktie
@@ -605,7 +606,7 @@ INSERT INTO Books_new VALUES
 """)
     id = 1
     for i, folder in enumerate(folders):
-        authors_names = "&".join([author_names[id] for id in author_groups[i]])
+        authors_names = " & ".join([author_names[id] for id in author_groups[i]])
         for j, title in enumerate(titles[i]):
             filename = "knit/patterns/designers/" + folder + "/" + filenames[i][j]
             publication = publications[i][j]
@@ -828,3 +829,42 @@ INSERT INTO Tags_new VALUES
 
 
 
+with open("update_book_tags.sql", "w") as TMP:
+    TMP.write(
+"""
+--remake Book_Tags from Tags
+
+--first run consolidate_tags.sql
+
+--view columns in Tags
+-- SELECT name FROM PRAGMA table_info(Tags
+
+--drop existing Book_Tags_new table
+DROP TABLE IF EXISTS Book_Tags_new;
+
+--create Book_Tags_new table
+CREATE TABLE Book_Tags_new(
+    id INTEGER NOT NULL PRIMARY KEY,
+    book_id INTEGER NOT NULL,
+    tag TEXT NOT NULL, 
+    FOREIGN KEY(book_id) REFERENCES Books_new(id));
+CREATE INDEX Idx_Book_Tags_new ON Book_Tags_new(book_id, tag);
+
+--update each tag in turn
+INSERT INTO Book_Tags_new
+SELECT * FROM 
+    (SELECT 
+        (SELECT COUNT(*) FROM Tags AS t2 WHERE crochet = 1 AND t2.book_id <= t1.book_id) AS id, book_id
+        FROM Tags AS t1 WHERE crochet = 1 ORDER BY book_id), 
+    (SELECT "crochet" AS tag);
+""")
+    for tag in tagnames[2:]:
+        TMP.write(
+f"""
+INSERT INTO Book_Tags_new
+SELECT * FROM 
+    (SELECT 
+        (SELECT COUNT(*) + (SELECT COUNT(*) FROM Book_Tags_new) FROM Tags AS t2 WHERE {tag} = 1 AND t2.book_id <= t1.book_id) AS id, book_id
+        FROM Tags AS t1 WHERE {tag} = 1 ORDER BY book_id), 
+    (SELECT "{tag}" AS tag);
+""")

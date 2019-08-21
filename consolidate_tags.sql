@@ -13,16 +13,16 @@ UPDATE Tags SET sleepwear = 1
 UPDATE Tags SET clothing = 1
 	WHERE coat OR sweater OR top OR wrap OR dress OR pants OR shorts OR skirt OR underwear OR sleepwear OR swimwear;
 	
-UPDATE Tags SET armwear = 1
-	WHERE gloves OR mittens OR wristbands;
 UPDATE Tags SET bag = 1
 	WHERE tote OR purse;
-UPDATE Tags SET hat = 1
-	WHERE beanie OR beret OR cloche OR earflap OR headband OR hood;
 UPDATE Tags SET legwear = 1
 	WHERE socks OR stocking OR legwarmers OR booties OR slippers;
+UPDATE Tags SET hat = 1
+	WHERE beanie OR beret OR cloche OR earflap OR headband OR hood;
 UPDATE Tags SET neckwear = 1
-	WHERE cowl OR scarf;
+	WHERE cowl OR necktie OR scarf;
+UPDATE Tags SET armwear = 1
+	WHERE gloves OR mittens OR wristbands;
 UPDATE Tags SET accessory = 1
 	WHERE armwear OR bag OR hat OR legwear OR neckwear;
 		
