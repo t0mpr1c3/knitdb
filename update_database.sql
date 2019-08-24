@@ -74,4 +74,4 @@ DROP TABLE Tags_new;
 DROP TABLE Book_Tags_new;
 
 
---now run consolidate_tags.sql, update_book_tags.sql, and checks.sql
+--now run consolidate_tags.sql then update_book_tags.sql, and check all the Views

@@ -186,7 +186,6 @@ INSERT INTO Tags(book_id) SELECT id FROM Books;
 
 --authors without books
 DROP VIEW IF EXISTS Authors_no_Books;
-
 CREATE VIEW Authors_no_Books 
 	AS SELECT id, name 
 	FROM Authors LEFT JOIN Book_Authors ON id=author_id 
@@ -194,7 +193,6 @@ CREATE VIEW Authors_no_Books
 
 --books without authors
 DROP VIEW IF EXISTS Books_no_Authors;
-
 CREATE VIEW Books_no_Authors 
 	AS SELECT id, authors_names, title 
 	FROM Books LEFT JOIN Book_Authors ON id=book_id 
@@ -202,21 +200,18 @@ CREATE VIEW Books_no_Authors
 
 --tags without books
 DROP VIEW IF EXISTS Tags_no_Books;
-
 CREATE VIEW Tags_no_Books AS SELECT book_id, title 
 	FROM Tags LEFT JOIN Books ON id=book_id 
 	WHERE id IS NULL ORDER BY book_id;
 
---books without tags
-DROP VIEW IF EXISTS Books_no_Tags;
-
-CREATE VIEW Books_no_Tags AS SELECT id, title 
-	FROM Books LEFT JOIN Tags ON id=book_id 
-	WHERE book_id IS NULL ORDER BY id;
+--books without tags 
+DROP VIEW IF EXISTS Books_no_Tags; 
+CREATE VIEW Books_no_Tags AS SELECT Books.id, title
+	FROM Books LEFT JOIN Book_Tags ON Books.id=book_id
+	WHERE book_id IS NULL ORDER BY Books.id;
 
 --duplicate authors
 DROP VIEW IF EXISTS Authors_dup;
-
 CREATE VIEW Authors_dup AS SELECT id, name, COUNT(name) 
 	FROM Authors GROUP BY name HAVING (COUNT(name) > 1)
 	ORDER BY id;
