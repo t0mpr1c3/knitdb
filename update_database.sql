@@ -43,7 +43,7 @@ SELECT * FROM Books_new INNER JOIN Books ON Books_new.file_name = Books.file_nam
 --update `Books_new` with manually-entered data from `Books`:
 REPLACE INTO Books_new 
 SELECT Books_new.id, Books_new.file_name, Books_new.authors_names, Books_new.title, Books_new.publication, 
-	Books.ravelry_source, Books.ravelry_pattern 
+	Books.ravelry_source, Books.ravelry_pattern  
 FROM Books_new JOIN Books ON Books_new.file_name = Books.file_name;
 
 

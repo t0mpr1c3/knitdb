@@ -46,7 +46,7 @@ for folder in folders:
 ## define regexes to create book title
 f0 = set(re.sub(".*(\\.\\w{3,4})$", "\\1", f) for ff in filenames for f in ff)
 suffices = [f for f in f0 if re.match(r0, f) != None]
-r2 = re.compile("|".join(suffices) + "$")
+r2 = re.compile("$|".join(suffices) + "$")
 r3 = re.compile("\\s*\\(NEW\\)$")
 r4 = re.compile("\\s*\\(c\\)$")
 r5 = re.compile("\\s*\\(crochet\\)$")
@@ -183,7 +183,7 @@ m4 = re.compile("\\bCoat[s]?\\b|\bOvercoat[s]?\\b|[Jj]acket[s]?\\b") ## not Wais
 #
 m5 = re.compile("\\bCardi[e]?[s]?\\b|\\bCardigan[s]?\\b") ## Cardigan
 m6 = re.compile("\\bHoodie[s]?\\b|\\bHooded Top[s]?\\b") ## not Hood
-m7 = re.compile("\\bSweater[s]?\\b|\\bJumper[s]?\\b|\\bPullover[s]?\\b|\\bPull-Over[s]?\\b") ## Sweater
+m7 = re.compile("\\bSweater[s]?|\\bJumper[s]?\\b|\\bPullover[s]?\\b|\\bPull-Over[s]?\\b") ## Sweater
 m8 = re.compile("\\bTunic[s]?\\b") ## Tunic
 m9 = re.compile("\\bVest[s]?\\b|\bWaistcoat[s]?\\b") ## Vest
 #
@@ -200,20 +200,20 @@ mI = re.compile("\\bShawl[s]?\\b|\\bShawlette[s]?\\b|\\bMantle[s]?\\b|\\bMantele
 mJ = re.compile("\\bShrug[s]?\\b|\\bBolero\\b|\\bShrowl[s]?\\b") ## Shrug
 mK = re.compile("\\bWrap[s]?\\b") ## Wrap
 #
-mL = re.compile("\\bDress\\b|\\bDresses\\b|\\bBabydoll[s]?\\b") ## Dress
+mL = re.compile("\\bDress\\b|\\bDresses\\b") ## Dress
 mM = re.compile("\\bPant[s]?\\b|(?<!\\bShort )\\bTrousers\\b") ## not Underpants, Panties, Shorts
 mN = re.compile("\\bShorts\\b|\\bShort Trousers\\b") ## not Undershorts
 mO = re.compile("\\bSkirt[s]?\\b") ## Skirt
 #
-mP = re.compile("\\bBodice[s]?\\b|\\bCorset[s]?\\b|\\bBasque[s]?\\b") ## Bodice
+mP = re.compile("\\bBodice[s]?\\b|\\bCorset[s]?\\b|\\bBasque[s]?\\b|\\bCorselette[s]?\\b") ## Bodice
 mQ = re.compile("\\bBras[s]?\\b|\\bBrassi[eè]re[s]?\\b") ## Bra
-mR = re.compile("\\bCami[s]?\\b|\\bCamisole[s]?\\b") ## Cami
+mR = re.compile("\\bCami[s]?\\b|\\bCamisole[s]?\\b|\\bBabydoll[s]?\\b") ## Cami
 mS = re.compile("\\bPanty\\b|\\bPanties\\b|\\bKnickers\\b|\\bUndies\\b|\\bUnderpants\\b|\\bUndershorts\\b") ## Panty
 mT = re.compile("\\bUnderwear\\b|\\bLingerie\\b|\\bIntimate[s]?") ## Underwear
 #
 mU = re.compile("\\bNighty\\b|\\bNightie[s]?\\b|\\bNightgown[s]?\\b") ## Nighty
 mV = re.compile("\\bPajama[s]?\\b|\\bPyjama[s]?\\b|\\bPj[s]?\\b|\\bRomper[s]?\\b") ## Pajamas
-mW = re.compile("\\bSleepwear\\b|\\bNightwear\\b|\\bNighttime\\b") ## Sleepwear
+mW = re.compile("\\bSleepwear\\b|\\bNightwear\\b") ## Sleepwear
 #
 mX = re.compile("\\bSwimwear\\b|kini[s]?\\b|\\bBeach\\b|\\bBeachwear\\b") ## Swimwear, *kini
 #
@@ -303,16 +303,16 @@ mBN = re.compile(
     "\\bSanta\\b|\\bSnowm[ae]n\\b|\\bReindeer\\b") ## Xmas
 #
 mBO = re.compile("\\bAdult[s]?\\b") ## Adult
-mBP = re.compile("\\bBaby\\b|\\Babies\\b|\\bInfant[s]?\\b|\\bTot[s]?\\b|\\bNursery\\b") ## Baby
+mBP = re.compile("\\bBaby\\b|\\Babies\\b|\\bInfant[s]?\\b|\\bNewborn[s]?\\b|\\bTot[s]?\\b|\\bNursery\\b") ## Baby
 mBQ = re.compile("\\bBoy[s]?\\b") ## Boy
 mBR = re.compile("\\bChild\\b|\\bChildren\\b|\\bKid[s]?\\b|\\bT[w]?een\\b|\\bT[w]?eenager[s]?\\b") ## Child
 mBS = re.compile("\\bGirl[s]?\\b") ## Girl
-mBT = re.compile("\\bM[ae]n\\b|\\Father[s]?\\b|\\bDad[s]?\\b|\\bMenswear\\b") ## Man
+mBT = re.compile("\\bM[ae]n\\b|\\bFather[s]?\\b|\\bDad[s]?\\b|\\bMenswear\\b") ## Man
 mBU = re.compile("\\bToddler[s]?\\b") ## Toddler
 mBV = re.compile("\\bWom[ae]n\\b|\\bMother[s]?\\b|\\bMum[s]?\\b|\\bFeminine\\b") ## Woman
 #
-mBW = re.compile("\\bColo[u]?rwork\\b") ## Colourwork
-mBX = re.compile("\\bDoubleknit\\b|\\bDoubleknitting\\b|\\bDouble Knit\\b") ## Doubleknit
+mBW = re.compile("\\bColo[u]?rwork\\b|\\bColo[u]?r Knit") ## Colourwork
+mBX = re.compile("\\bDoubleknit |\\bDouble Knit") ## Doubleknit
 mBY = re.compile("\\bIntarsia\\b") ## Intarsia
 mBZ = re.compile("\\bMosaic[s]?\\b") ## Mosaic
 mCA = re.compile("\\bStranded\\b|\\bFair Isle\\b") ## Stranded
@@ -323,7 +323,7 @@ mCF = re.compile("\\bEdging[s]?\\b") ## Edging
 mCG = re.compile("\\bEntrelac\\b") ## Entrelac
 mCH = re.compile("\\bMotif[s]?\\b|\\bApplique[s]?\\b") ## Motif
 mCI = re.compile("\\bRaglan\\b") ## Raglan
-mCJ = re.compile("\\bSeamless\\b") ## Seamless
+mCJ = re.compile("\\bSeamless\\b|\\bCircular Knit") ## Seamless
 mCK = re.compile("\\bSideways\\b") ## Sideways
 mCL = re.compile("\\bStitches\\b") ## Stitches
 mCM = re.compile("\\bTechnique[s]?\\b|\\bTechnology\\b|\\bTechnologies\\b") ## Techniques
@@ -466,7 +466,7 @@ def tag(filename, title, publication):
     teacosy     = re.search(mBE, title) != None
     throw       = re.search(mBF, title) != None
     #
-    animal      = re.search(mBG, title) != None
+    animal      = re.search(mBG, title) != None or re.search(mBG, publication) != None
     doll        = re.search(mBH, title) != None or re.search(mBH, publication) != None
     gift        = re.search(mBI, title) != None or re.search(mBI, publication) != None
     halloween   = re.search(mBJ, title) != None or re.search(mBJ, publication) != None
@@ -868,3 +868,5 @@ SELECT * FROM
         FROM Tags AS t1 WHERE {tag} = 1 ORDER BY book_id), 
     (SELECT "{tag}" AS tag);
 """)
+
+
